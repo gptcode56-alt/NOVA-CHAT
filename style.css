@@ -1,26 +1,43 @@
+/* =========================================
+   Nova Chat - Main Style
+========================================= */
+
+
+/* =========================================
+   إعدادات عامة
+========================================= */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
+}
+
+html {
+    font-size: 16px;
 }
 
 body {
     min-height: 100vh;
 
-    background: #e9faff;
+    background: #eafaff;
+
+    font-family:
+        Arial,
+        Tahoma,
+        sans-serif;
+
+    color: #202124;
 
     display: flex;
     justify-content: center;
     align-items: center;
-
-    color: #222;
 }
 
 
-/* =========================
+/* =========================================
    التطبيق
-========================= */
+========================================= */
 
 .app {
     width: 100%;
@@ -28,94 +45,97 @@ body {
 
     min-height: 100vh;
 
-    background: white;
+    background: #ffffff;
 
-    padding: 35px 24px;
+    padding: 30px 22px 20px;
 
     display: flex;
     flex-direction: column;
-    justify-content: center;
 }
 
 
-/* =========================
-   الشعار
-========================= */
+/* =========================================
+   منطقة اللوجو
+========================================= */
 
-.logo-area {
+.brand {
     text-align: center;
 
-    margin-bottom: 35px;
+    margin-top: 30px;
+    margin-bottom: 30px;
 }
 
 .logo {
-    width: 78px;
-    height: 78px;
+    width: 76px;
+    height: 76px;
 
-    margin: auto;
+    margin: 0 auto 14px;
 
     border-radius: 24px;
 
-    background: linear-gradient(
-        135deg,
-        #70ddff,
-        #28afd8
-    );
+    background:
+        linear-gradient(
+            135deg,
+            #72dcfa,
+            #24acd5
+        );
 
     color: white;
+
+    font-size: 38px;
+    font-weight: bold;
 
     display: flex;
     justify-content: center;
     align-items: center;
 
-    font-size: 38px;
-    font-weight: bold;
-
     box-shadow:
-        0 10px 25px rgba(40,175,216,0.25);
+        0 10px 25px rgba(36, 172, 213, 0.25);
 }
 
-.logo-area h1 {
-    margin-top: 14px;
+.brand h1 {
+    color: #1da7d2;
 
     font-size: 30px;
 
-    color: #21a9d5;
+    font-weight: 700;
+
+    margin-bottom: 7px;
 }
 
-.logo-area p {
-    margin-top: 7px;
-
+.brand p {
     color: #888;
 
     font-size: 14px;
 }
 
 
-/* =========================
-   التبويبات
-========================= */
+/* =========================================
+   أزرار التبديل
+========================================= */
 
-.tabs {
+.auth-tabs {
+    width: 100%;
+
     display: flex;
-
-    background: #effaff;
 
     padding: 4px;
 
-    border-radius: 13px;
+    background: #effaff;
 
-    margin-bottom: 25px;
+    border-radius: 14px;
+
+    margin-bottom: 28px;
 }
 
 .tab {
     flex: 1;
 
-    height: 45px;
+    height: 46px;
 
     border: none;
 
-    border-radius: 10px;
+    border-radius: 11px;
 
     background: transparent;
 
@@ -123,116 +143,174 @@ body {
 
     font-size: 14px;
 
+    font-weight: 500;
+
     cursor: pointer;
+
+    transition: 0.2s ease;
 }
 
 .tab.active {
-    background: white;
+    background: #ffffff;
 
-    color: #19a8d5;
+    color: #18a7d4;
 
-    font-weight: bold;
+    font-weight: 700;
 
     box-shadow:
-        0 2px 8px rgba(0,0,0,0.06);
+        0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.tab:active {
+    transform: scale(0.98);
 }
 
 
-/* =========================
-   الحقول
-========================= */
+/* =========================================
+   أقسام تسجيل الدخول والتسجيل
+========================================= */
 
-.input-box {
-    margin-bottom: 16px;
+.auth-section {
+    width: 100%;
 }
 
-.input-box label {
+.auth-section h2 {
+    color: #252525;
+
+    font-size: 22px;
+
+    margin-bottom: 22px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================
+   حقول الإدخال
+========================================= */
+
+.input-group {
+    margin-bottom: 17px;
+}
+
+.input-group label {
     display: block;
 
-    margin-bottom: 8px;
-
-    color: #444;
+    color: #555;
 
     font-size: 14px;
+
+    font-weight: 600;
+
+    margin-bottom: 8px;
 }
 
-.input-box input {
+.input-group input {
     width: 100%;
 
     height: 54px;
 
-    border: 1px solid #dbe7eb;
-
-    border-radius: 13px;
-
     padding: 0 16px;
+
+    border: 1px solid #dce8ec;
+
+    border-radius: 14px;
+
+    background: #ffffff;
+
+    color: #222;
 
     outline: none;
 
-    font-size: 17px;
+    font-size: 16px;
 
     direction: ltr;
 
     text-align: left;
 
-    transition: 0.2s;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
 }
 
-.input-box input:focus {
-    border-color: #42c5ec;
+.input-group input::placeholder {
+    color: #aaa;
+}
+
+.input-group input:focus {
+    border-color: #45c5eb;
+
+    background: #fbfeff;
 
     box-shadow:
-        0 0 0 3px rgba(66,197,236,0.12);
+        0 0 0 3px rgba(69, 197, 235, 0.12);
 }
 
 
-/* =========================
-   الزر
-========================= */
+/* =========================================
+   زر أساسي
+========================================= */
 
-.main-btn {
+.primary-button {
     width: 100%;
 
     height: 54px;
 
+    margin-top: 5px;
+
     border: none;
 
-    border-radius: 13px;
+    border-radius: 14px;
 
-    background: #42c5ec;
+    background:
+        linear-gradient(
+            135deg,
+            #63d5f5,
+            #28afd8
+        );
 
-    color: white;
+    color: #ffffff;
 
     font-size: 16px;
 
-    font-weight: bold;
+    font-weight: 700;
 
     cursor: pointer;
 
-    transition: 0.2s;
+    box-shadow:
+        0 7px 18px rgba(40, 175, 216, 0.20);
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease,
+        opacity 0.15s ease;
 }
 
-.main-btn:hover {
-    background: #22afd9;
+.primary-button:hover {
+    box-shadow:
+        0 9px 22px rgba(40, 175, 216, 0.28);
 }
 
-.main-btn:active {
+.primary-button:active {
     transform: scale(0.98);
 }
 
-.main-btn:disabled {
+.primary-button:disabled {
     opacity: 0.6;
 
     cursor: not-allowed;
+
+    transform: none;
 }
 
 
-/* =========================
+/* =========================================
    الرسائل
-========================= */
+========================================= */
 
 .message {
-    min-height: 25px;
+    min-height: 24px;
 
     margin-top: 18px;
 
@@ -240,47 +318,101 @@ body {
 
     font-size: 14px;
 
-    line-height: 1.5;
+    line-height: 1.6;
 }
 
 .message.success {
-    color: #159d69;
+    color: #149965;
 }
 
 .message.error {
-    color: #e34848;
+    color: #df4545;
 }
 
 .message.info {
-    color: #218eae;
+    color: #168eaf;
 }
 
 
-/* إخفاء */
+/* =========================================
+   إخفاء العناصر
+========================================= */
 
 .hidden {
     display: none !important;
 }
 
 
-/* =========================
+/* =========================================
+   Footer
+========================================= */
+
+.footer {
+    margin-top: auto;
+
+    padding-top: 35px;
+
+    text-align: center;
+}
+
+.footer p {
+    color: #aaa;
+
+    font-size: 12px;
+}
+
+
+/* =========================================
+   تحسين الموبايل الصغير
+========================================= */
+
+@media (max-width: 360px) {
+
+    .app {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .brand {
+        margin-top: 20px;
+        margin-bottom: 25px;
+    }
+
+    .logo {
+        width: 68px;
+        height: 68px;
+
+        font-size: 34px;
+    }
+
+    .brand h1 {
+        font-size: 27px;
+    }
+
+    .auth-section h2 {
+        font-size: 20px;
+    }
+}
+
+
+/* =========================================
    الكمبيوتر
-========================= */
+========================================= */
 
 @media (min-width: 600px) {
 
     body {
-        padding: 20px;
+        padding: 25px;
     }
 
     .app {
         min-height: auto;
 
-        border-radius: 28px;
+        border-radius: 30px;
 
-        padding: 45px 35px;
+        padding: 40px 35px;
 
         box-shadow:
-            0 15px 50px rgba(0,0,0,0.08);
+            0 18px 55px rgba(0, 0, 0, 0.08);
     }
 }
