@@ -2,148 +2,268 @@
 <html lang="ar" dir="rtl">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- إعدادات الصفحة -->
+    <meta charset="UTF-8">
+
+    <!-- جعل الموقع مناسب للموبايل -->
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <!-- اسم الموقع -->
     <title>Nova Chat</title>
 
+    <!-- ملف التصميم -->
     <link rel="stylesheet" href="style.css">
+
 </head>
+
 
 <body>
 
-    <div class="app">
+    <!-- =================================
+         التطبيق بالكامل
+    ================================== -->
 
-        <!-- الشعار -->
-        <div class="logo-area">
-            <div class="logo">N</div>
-
-            <h1>Nova Chat</h1>
-
-            <p>دردش مع أصدقائك بسهولة 💬</p>
-        </div>
+    <main class="app">
 
 
-        <!-- التبويبات -->
-        <div class="tabs">
+        <!-- =================================
+             اللوجو واسم الموقع
+        ================================== -->
 
-            <button id="loginTab" class="tab active">
+        <header class="brand">
+
+            <div class="logo">
+                N
+            </div>
+
+            <h1>
+                Nova Chat
+            </h1>
+
+            <p>
+                تواصل مع أصدقائك بسهولة 💬
+            </p>
+
+        </header>
+
+
+        <!-- =================================
+             اختيار تسجيل الدخول / حساب جديد
+        ================================== -->
+
+        <nav class="auth-tabs">
+
+            <button
+                id="loginTab"
+                class="tab active"
+                type="button">
+
                 تسجيل الدخول
+
             </button>
 
-            <button id="registerTab" class="tab">
+
+            <button
+                id="registerTab"
+                class="tab"
+                type="button">
+
                 حساب جديد
+
             </button>
 
-        </div>
+        </nav>
 
 
-        <!-- =========================
-             تسجيل الدخول
-        ========================== -->
+        <!-- =================================
+             صندوق تسجيل الدخول
+        ================================== -->
 
-        <div id="loginForm">
+        <section
+            id="loginSection"
+            class="auth-section">
 
-            <div class="input-box">
+            <h2>
+                أهلاً بعودتك 👋
+            </h2>
 
-                <label>رقم الهاتف</label>
+
+            <!-- رقم الهاتف -->
+
+            <div class="input-group">
+
+                <label for="loginPhone">
+                    رقم الهاتف
+                </label>
 
                 <input
                     id="loginPhone"
                     type="tel"
                     inputmode="numeric"
                     maxlength="11"
-                    placeholder="01xxxxxxxxx">
+                    placeholder="01xxxxxxxxx"
+                    autocomplete="tel">
 
             </div>
 
 
-            <div class="input-box">
+            <!-- الرقم السري -->
 
-                <label>الرقم السري</label>
+            <div class="input-group">
+
+                <label for="loginPin">
+                    الرقم السري
+                </label>
 
                 <input
                     id="loginPin"
                     type="password"
                     inputmode="numeric"
                     maxlength="6"
-                    placeholder="••••••">
+                    placeholder="6 أرقام"
+                    autocomplete="current-password">
 
             </div>
 
 
-            <button id="loginBtn" class="main-btn">
+            <!-- زر تسجيل الدخول -->
+
+            <button
+                id="loginButton"
+                class="primary-button"
+                type="button">
+
                 تسجيل الدخول
+
             </button>
 
-        </div>
+        </section>
 
 
-        <!-- =========================
-             إنشاء حساب
-        ========================== -->
+        <!-- =================================
+             صندوق إنشاء الحساب
+        ================================== -->
 
-        <div id="registerForm" class="hidden">
+        <section
+            id="registerSection"
+            class="auth-section hidden">
 
-            <div class="input-box">
+            <h2>
+                إنشاء حساب جديد ✨
+            </h2>
 
-                <label>رقم الهاتف</label>
+
+            <!-- رقم الهاتف -->
+
+            <div class="input-group">
+
+                <label for="registerPhone">
+                    رقم الهاتف
+                </label>
 
                 <input
                     id="registerPhone"
                     type="tel"
                     inputmode="numeric"
                     maxlength="11"
-                    placeholder="01xxxxxxxxx">
+                    placeholder="01xxxxxxxxx"
+                    autocomplete="tel">
 
             </div>
 
 
-            <div class="input-box">
+            <!-- الرقم السري -->
 
-                <label>الرقم السري</label>
+            <div class="input-group">
+
+                <label for="registerPin">
+                    الرقم السري
+                </label>
 
                 <input
                     id="registerPin"
                     type="password"
                     inputmode="numeric"
                     maxlength="6"
-                    placeholder="6 أرقام">
+                    placeholder="6 أرقام"
+                    autocomplete="new-password">
 
             </div>
 
 
-            <div class="input-box">
+            <!-- تأكيد الرقم السري -->
 
-                <label>تأكيد الرقم السري</label>
+            <div class="input-group">
+
+                <label for="registerPinConfirm">
+                    تأكيد الرقم السري
+                </label>
 
                 <input
-                    id="registerPin2"
+                    id="registerPinConfirm"
                     type="password"
                     inputmode="numeric"
                     maxlength="6"
-                    placeholder="أعد كتابة الرقم السري">
+                    placeholder="أعد كتابة الرقم السري"
+                    autocomplete="new-password">
 
             </div>
 
 
-            <button id="registerBtn" class="main-btn">
+            <!-- زر إنشاء الحساب -->
+
+            <button
+                id="registerButton"
+                class="primary-button"
+                type="button">
+
                 إنشاء الحساب
+
             </button>
 
+        </section>
+
+
+        <!-- =================================
+             مكان رسائل الخطأ والنجاح
+        ================================== -->
+
+        <div
+            id="message"
+            class="message"
+            role="status"
+            aria-live="polite">
         </div>
 
 
-        <!-- الرسائل -->
+        <!-- =================================
+             حقوق الموقع
+        ================================== -->
 
-        <div id="message" class="message"></div>
+        <footer class="footer">
 
-    </div>
+            <p>
+                Nova Chat © 2026
+            </p>
+
+        </footer>
 
 
-    <!-- JavaScript -->
+    </main>
 
-    <script type="module" src="app.js"></script>
+
+    <!-- =================================
+         JavaScript
+         هنضيفه بعد ما نخلص التصميم
+    ================================== -->
+
+    <script
+        type="module"
+        src="app.js">
+    </script>
 
 </body>
 
