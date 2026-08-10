@@ -1,0 +1,315 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: #eafaff;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: #222;
+}
+
+.app {
+    width: 100%;
+    max-width: 430px;
+    min-height: 100vh;
+
+    background: #ffffff;
+
+    padding: 35px 22px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+/* =========================
+   الشعار
+========================= */
+
+.brand {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.logo {
+    width: 78px;
+    height: 78px;
+
+    margin: auto;
+
+    border-radius: 25px;
+
+    background: linear-gradient(
+        135deg,
+        #65d5f5,
+        #27add8
+    );
+
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 38px;
+    font-weight: bold;
+
+    box-shadow: 0 10px 25px rgba(39, 173, 216, 0.25);
+}
+
+.brand h1 {
+    margin-top: 14px;
+
+    color: #20a9d4;
+
+    font-size: 30px;
+}
+
+.brand p {
+    margin-top: 7px;
+
+    color: #888;
+
+    font-size: 14px;
+}
+
+
+/* =========================
+   كارت تسجيل الدخول
+========================= */
+
+.auth-card {
+    width: 100%;
+}
+
+
+/* التبويبات */
+
+.tabs {
+    display: flex;
+
+    background: #f0faff;
+
+    border-radius: 13px;
+
+    padding: 4px;
+
+    margin-bottom: 25px;
+}
+
+.tab {
+    flex: 1;
+
+    height: 45px;
+
+    border: none;
+
+    background: transparent;
+
+    border-radius: 10px;
+
+    color: #777;
+
+    font-size: 14px;
+
+    cursor: pointer;
+}
+
+.tab.active {
+    background: white;
+
+    color: #1ca8d5;
+
+    font-weight: bold;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+
+/* =========================
+   الحقول
+========================= */
+
+.input-group {
+    margin-bottom: 17px;
+}
+
+.input-group label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #444;
+
+    font-size: 14px;
+}
+
+.input-group input {
+    width: 100%;
+
+    height: 54px;
+
+    border: 1px solid #dce7eb;
+
+    border-radius: 13px;
+
+    outline: none;
+
+    padding: 0 16px;
+
+    font-size: 16px;
+
+    direction: ltr;
+
+    text-align: left;
+
+    transition: 0.2s;
+}
+
+.input-group input:focus {
+    border-color: #42c3eb;
+
+    box-shadow:
+        0 0 0 3px rgba(66,195,235,0.12);
+}
+
+
+/* =========================
+   الأزرار
+========================= */
+
+.main-btn {
+    width: 100%;
+
+    height: 54px;
+
+    border: none;
+
+    border-radius: 13px;
+
+    background: #42c3eb;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.main-btn:hover {
+    background: #25afd9;
+}
+
+.main-btn:active {
+    transform: scale(0.98);
+}
+
+
+.secondary-btn {
+    width: 100%;
+
+    height: 48px;
+
+    margin-top: 10px;
+
+    border: none;
+
+    background: transparent;
+
+    color: #22a8d4;
+
+    font-size: 14px;
+
+    cursor: pointer;
+}
+
+
+/* =========================
+   OTP
+========================= */
+
+.otp-section {
+    margin-top: 20px;
+}
+
+.otp-info {
+    text-align: center;
+
+    color: #777;
+
+    font-size: 14px;
+
+    margin-bottom: 18px;
+}
+
+
+/* =========================
+   الرسائل
+========================= */
+
+.message {
+    min-height: 22px;
+
+    margin-top: 15px;
+
+    text-align: center;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+}
+
+.message.success {
+    color: #159b67;
+}
+
+.message.error {
+    color: #e34b4b;
+}
+
+.message.info {
+    color: #278eaf;
+}
+
+
+/* إخفاء العناصر */
+
+.hidden {
+    display: none !important;
+}
+
+
+/* =========================
+   الكمبيوتر
+========================= */
+
+@media (min-width: 600px) {
+
+    body {
+        padding: 20px;
+    }
+
+    .app {
+        min-height: auto;
+
+        border-radius: 28px;
+
+        padding: 45px 35px;
+
+        box-shadow:
+            0 15px 50px rgba(0,0,0,0.08);
+    }
+}
