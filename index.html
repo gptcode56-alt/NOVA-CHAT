@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,89 +12,139 @@
 
 <body>
 
-    <main class="app">
+    <div class="app">
 
         <!-- الشعار -->
-        <section class="brand">
+        <div class="logo-area">
             <div class="logo">N</div>
+
             <h1>Nova Chat</h1>
-            <p>تواصل مع أصدقائك بسهولة 💬</p>
-        </section>
+
+            <p>دردش مع أصدقائك بسهولة 💬</p>
+        </div>
 
 
-        <!-- تسجيل الدخول -->
-        <section class="auth-card">
+        <!-- التبويبات -->
+        <div class="tabs">
 
-            <div class="tabs">
-                <button id="loginTab" class="tab active">
-                    تسجيل الدخول
-                </button>
-
-                <button id="registerTab" class="tab">
-                    حساب جديد
-                </button>
-            </div>
-
-
-            <!-- رقم الهاتف -->
-            <div class="input-group">
-                <label for="phone">رقم الهاتف</label>
-
-                <input
-                    id="phone"
-                    type="tel"
-                    inputmode="tel"
-                    placeholder="+20 10xxxxxxxx"
-                    autocomplete="tel">
-            </div>
-
-
-            <!-- زر إرسال الكود -->
-            <button id="sendCodeBtn" class="main-btn">
-                إرسال كود التحقق
+            <button id="loginTab" class="tab active">
+                تسجيل الدخول
             </button>
 
+            <button id="registerTab" class="tab">
+                حساب جديد
+            </button>
 
-            <!-- منطقة OTP -->
-            <div id="otpSection" class="otp-section hidden">
+        </div>
 
-                <p class="otp-info">
-                    أدخل كود التحقق الذي وصلك على هاتفك
-                </p>
 
-                <div class="input-group">
-                    <label for="otp">كود التحقق</label>
+        <!-- =========================
+             تسجيل الدخول
+        ========================== -->
 
-                    <input
-                        id="otp"
-                        type="text"
-                        inputmode="numeric"
-                        maxlength="6"
-                        placeholder="000000"
-                        autocomplete="one-time-code">
-                </div>
+        <div id="loginForm">
 
-                <button id="verifyBtn" class="main-btn">
-                    تأكيد الرقم
-                </button>
+            <div class="input-box">
 
-                <button id="backBtn" class="secondary-btn">
-                    تغيير رقم الهاتف
-                </button>
+                <label>رقم الهاتف</label>
+
+                <input
+                    id="loginPhone"
+                    type="tel"
+                    inputmode="numeric"
+                    maxlength="11"
+                    placeholder="01xxxxxxxxx">
 
             </div>
 
 
-            <!-- رسائل الحالة -->
-            <p id="message" class="message"></p>
+            <div class="input-box">
 
-        </section>
+                <label>الرقم السري</label>
 
-    </main>
+                <input
+                    id="loginPin"
+                    type="password"
+                    inputmode="numeric"
+                    maxlength="6"
+                    placeholder="••••••">
+
+            </div>
 
 
-    <!-- Firebase -->
+            <button id="loginBtn" class="main-btn">
+                تسجيل الدخول
+            </button>
+
+        </div>
+
+
+        <!-- =========================
+             إنشاء حساب
+        ========================== -->
+
+        <div id="registerForm" class="hidden">
+
+            <div class="input-box">
+
+                <label>رقم الهاتف</label>
+
+                <input
+                    id="registerPhone"
+                    type="tel"
+                    inputmode="numeric"
+                    maxlength="11"
+                    placeholder="01xxxxxxxxx">
+
+            </div>
+
+
+            <div class="input-box">
+
+                <label>الرقم السري</label>
+
+                <input
+                    id="registerPin"
+                    type="password"
+                    inputmode="numeric"
+                    maxlength="6"
+                    placeholder="6 أرقام">
+
+            </div>
+
+
+            <div class="input-box">
+
+                <label>تأكيد الرقم السري</label>
+
+                <input
+                    id="registerPin2"
+                    type="password"
+                    inputmode="numeric"
+                    maxlength="6"
+                    placeholder="أعد كتابة الرقم السري">
+
+            </div>
+
+
+            <button id="registerBtn" class="main-btn">
+                إنشاء الحساب
+            </button>
+
+        </div>
+
+
+        <!-- الرسائل -->
+
+        <div id="message" class="message"></div>
+
+    </div>
+
+
+    <!-- JavaScript -->
+
     <script type="module" src="app.js"></script>
 
 </body>
+
 </html>
