@@ -1,118 +1,208 @@
-// ============================================
+// ==========================================
 // Firebase
-// ============================================
+// ==========================================
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
 import {
     getAuth,
-    RecaptchaVerifier,
-    signInWithPhoneNumber
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
+import {
+    getFirestore,
+    doc,
+    setDoc,
+    getDoc
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
-// إعدادات Firebase الخاصة بـ Nova Chat
+
+// ==========================================
+// Firebase Config
+// ==========================================
 
 const firebaseConfig = {
+
     apiKey: "AIzaSyALknAXGEt4k_5c26WUYT2-tE00lwG6CMc",
-    authDomain: "my-we-7be7c.firebaseapp.com",
-    projectId: "my-we-7be7c",
-    storageBucket: "my-we-7be7c.firebasestorage.app",
-    messagingSenderId: "286975925668",
-    appId: "1:286975925668:web:cb30205ff611ead38f7531",
-    measurementId: "G-8BDHDE8TF7"
+
+    authDomain:
+        "my-we-7be7c.firebaseapp.com",
+
+    projectId:
+        "my-we-7be7c",
+
+    storageBucket:
+        "my-we-7be7c.firebasestorage.app",
+
+    messagingSenderId:
+        "286975925668",
+
+    appId:
+        "1:286975925668:web:cb30205ff611ead38f7531",
+
+    measurementId:
+        "G-8BDHDE8TF7"
 };
 
 
+// ==========================================
 // تشغيل Firebase
+// ==========================================
 
-const app = initializeApp(firebaseConfig);
+const app =
+    initializeApp(firebaseConfig);
 
-const auth = getAuth(app);
+const auth =
+    getAuth(app);
+
+const db =
+    getFirestore(app);
 
 
-// ============================================
+// ==========================================
 // عناصر الصفحة
-// ============================================
+// ==========================================
 
-const phoneInput =
-    document.getElementById("phone");
+const loginTab =
+    document.getElementById("loginTab");
 
-const otpInput =
-    document.getElementById("otp");
+const registerTab =
+    document.getElementById("registerTab");
 
-const sendCodeBtn =
-    document.getElementById("sendCodeBtn");
+const loginForm =
+    document.getElementById("loginForm");
 
-const verifyBtn =
-    document.getElementById("verifyBtn");
+const registerForm =
+    document.getElementById("registerForm");
 
-const backBtn =
-    document.getElementById("backBtn");
+const loginBtn =
+    document.getElementById("loginBtn");
 
-const otpSection =
-    document.getElementById("otpSection");
+const registerBtn =
+    document.getElementById("registerBtn");
 
 const message =
     document.getElementById("message");
 
 
-// ============================================
-// متغير التحقق
-// ============================================
-
-let confirmationResult = null;
-
-
-// ============================================
+// ==========================================
 // إظهار رسالة
-// ============================================
+// ==========================================
 
-function showMessage(text, type = "info") {
+function showMessage(text, type) {
 
     message.textContent = text;
 
-    message.className = "message " + type;
+    message.className =
+        "message " + type;
 }
 
 
-// ============================================
-// تجهيز reCAPTCHA
-// ============================================
+// ==========================================
+// تنظيف رقم الهاتف
+// ==========================================
 
-let recaptchaVerifier;
+function cleanPhone(phone) {
 
-function setupRecaptcha() {
-
-    recaptchaVerifier = new RecaptchaVerifier(
-        auth,
-        "sendCodeBtn",
-        {
-            size: "invisible",
-
-            callback: () => {
-                console.log("reCAPTCHA completed");
-            }
-        }
-    );
+    return phone
+        .replace(/\s/g, "")
+        .replace(/[^\d]/g, "");
 }
 
 
-// ============================================
-// إرسال كود SMS
-// ============================================
+// ==========================================
+// إنشاء Email داخلي
+// ==========================================
 
-sendCodeBtn.addEventListener("click", async () => {
+function createInternalEmail(phone) {
 
-    const phone = phoneInput.value.trim();
+    return phone + "@nova-chat.local";
+}
 
 
-    // التأكد من وجود رقم
+// ==========================================
+// التحقق من الهاتف
+// ==========================================
 
-    if (!phone) {
+function validPhone(phone) {
+
+    return /^01[0-9]{9}$/.test(phone);
+}
+
+
+// ==========================================
+// التحقق من PIN
+// ==========================================
+
+function validPin(pin) {
+
+    return /^[0-9]{6}$/.test(pin);
+}
+
+
+// ==========================================
+// التبديل بين الدخول والتسجيل
+// ==========================================
+
+loginTab.addEventListener("click", () => {
+
+    loginTab.classList.add("active");
+
+    registerTab.classList.remove("active");
+
+    loginForm.classList.remove("hidden");
+
+    registerForm.classList.add("hidden");
+
+    showMessage("", "");
+});
+
+
+registerTab.addEventListener("click", () => {
+
+    registerTab.classList.add("active");
+
+    loginTab.classList.remove("active");
+
+    registerForm.classList.remove("hidden");
+
+    loginForm.classList.add("hidden");
+
+    showMessage("", "");
+});
+
+
+// ==========================================
+// إنشاء حساب
+// ==========================================
+
+registerBtn.addEventListener("click", async () => {
+
+    let phone =
+        document.getElementById("registerPhone")
+        .value;
+
+    const pin =
+        document.getElementById("registerPin")
+        .value;
+
+    const pin2 =
+        document.getElementById("registerPin2")
+        .value;
+
+
+    phone = cleanPhone(phone);
+
+
+    // التحقق من الرقم
+
+    if (!validPhone(phone)) {
 
         showMessage(
-            "اكتب رقم الهاتف أولاً.",
+            "اكتب رقم هاتف مصري صحيح.",
             "error"
         );
 
@@ -120,14 +210,25 @@ sendCodeBtn.addEventListener("click", async () => {
     }
 
 
-    // لازم يكون بصيغة دولية
-    // مثال مصر:
-    // +2010xxxxxxxx
+    // التحقق من PIN
 
-    if (!/^\+[1-9]\d{7,14}$/.test(phone)) {
+    if (!validPin(pin)) {
 
         showMessage(
-            "اكتب الرقم بصيغة دولية مثل +2010xxxxxxxx.",
+            "الرقم السري يجب أن يكون 6 أرقام.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    // تأكيد PIN
+
+    if (pin !== pin2) {
+
+        showMessage(
+            "الرقم السري غير متطابق.",
             "error"
         );
 
@@ -137,42 +238,54 @@ sendCodeBtn.addEventListener("click", async () => {
 
     try {
 
-        sendCodeBtn.disabled = true;
+        registerBtn.disabled = true;
 
-        sendCodeBtn.textContent =
-            "جاري الإرسال...";
-
-
-        // إنشاء reCAPTCHA
-
-        if (!recaptchaVerifier) {
-            setupRecaptcha();
-        }
+        registerBtn.textContent =
+            "جاري إنشاء الحساب...";
 
 
-        // إرسال OTP
+        const email =
+            createInternalEmail(phone);
 
-        confirmationResult =
-            await signInWithPhoneNumber(
+
+        // إنشاء حساب Firebase
+
+        const result =
+            await createUserWithEmailAndPassword(
                 auth,
-                phone,
-                recaptchaVerifier
+                email,
+                pin
             );
 
 
-        // إظهار خانة OTP
+        const user =
+            result.user;
 
-        otpSection.classList.remove("hidden");
 
-        phoneInput.disabled = true;
+        // حفظ بيانات المستخدم العامة فقط
 
-        sendCodeBtn.classList.add("hidden");
+        await setDoc(
+            doc(db, "users", user.uid),
+            {
+                phone: phone,
+
+                name: "مستخدم جديد",
+
+                photoURL: "",
+
+                createdAt:
+                    new Date().toISOString()
+            }
+        );
 
 
         showMessage(
-            "تم إرسال كود التحقق إلى هاتفك.",
+            "تم إنشاء حسابك بنجاح 🎉",
             "success"
         );
+
+
+        // لاحقاً هننتقل إلى home.html
 
     }
 
@@ -180,48 +293,56 @@ sendCodeBtn.addEventListener("click", async () => {
 
         console.error(error);
 
-        showMessage(
-            "لم نتمكن من إرسال الكود. تأكد من الرقم وإعدادات Firebase.",
-            "error"
-        );
 
+        if (
+            error.code ===
+            "auth/email-already-in-use"
+        ) {
 
-        // إعادة تفعيل الزر
+            showMessage(
+                "رقم الهاتف مستخدم بالفعل.",
+                "error"
+            );
 
-        sendCodeBtn.disabled = false;
+        } else {
 
-        sendCodeBtn.textContent =
-            "إرسال كود التحقق";
-
-
-        // إعادة إنشاء reCAPTCHA
-
-        if (recaptchaVerifier) {
-
-            try {
-                recaptchaVerifier.clear();
-            } catch (e) {}
-
-            recaptchaVerifier = null;
+            showMessage(
+                "حدث خطأ أثناء إنشاء الحساب.",
+                "error"
+            );
         }
     }
+
+
+    registerBtn.disabled = false;
+
+    registerBtn.textContent =
+        "إنشاء الحساب";
 });
 
 
-// ============================================
-// تأكيد OTP
-// ============================================
+// ==========================================
+// تسجيل الدخول
+// ==========================================
 
-verifyBtn.addEventListener("click", async () => {
+loginBtn.addEventListener("click", async () => {
 
-    const code =
-        otpInput.value.trim();
+    let phone =
+        document.getElementById("loginPhone")
+        .value;
+
+    const pin =
+        document.getElementById("loginPin")
+        .value;
 
 
-    if (!confirmationResult) {
+    phone = cleanPhone(phone);
+
+
+    if (!validPhone(phone)) {
 
         showMessage(
-            "اطلب كود التحقق أولاً.",
+            "اكتب رقم هاتف مصري صحيح.",
             "error"
         );
 
@@ -229,10 +350,10 @@ verifyBtn.addEventListener("click", async () => {
     }
 
 
-    if (!/^\d{6}$/.test(code)) {
+    if (!validPin(pin)) {
 
         showMessage(
-            "اكتب كود التحقق المكون من 6 أرقام.",
+            "الرقم السري يجب أن يكون 6 أرقام.",
             "error"
         );
 
@@ -242,23 +363,45 @@ verifyBtn.addEventListener("click", async () => {
 
     try {
 
-        verifyBtn.disabled = true;
+        loginBtn.disabled = true;
 
-        verifyBtn.textContent =
-            "جاري التحقق...";
+        loginBtn.textContent =
+            "جاري تسجيل الدخول...";
 
 
-        // تسجيل الدخول الحقيقي
+        const email =
+            createInternalEmail(phone);
+
+
+        // تسجيل الدخول
 
         const result =
-            await confirmationResult.confirm(code);
+            await signInWithEmailAndPassword(
+                auth,
+                email,
+                pin
+            );
 
 
         const user =
             result.user;
 
 
-        console.log("User:", user);
+        // التأكد من وجود بيانات المستخدم
+
+        const userDoc =
+            await getDoc(
+                doc(db, "users", user.uid)
+            );
+
+
+        if (userDoc.exists()) {
+
+            console.log(
+                "User:",
+                userDoc.data()
+            );
+        }
 
 
         showMessage(
@@ -267,16 +410,10 @@ verifyBtn.addEventListener("click", async () => {
         );
 
 
-        /*
-            هنا في الخطوة القادمة
-            هننقل المستخدم إلى:
-
-            home.html
-
-            وهي الصفحة الرئيسية
-            الخاصة بـ Nova Chat.
-        */
-
+        // =====================================
+        // الخطوة القادمة:
+        // window.location.href = "home.html";
+        // =====================================
 
     }
 
@@ -284,51 +421,29 @@ verifyBtn.addEventListener("click", async () => {
 
         console.error(error);
 
-        showMessage(
-            "كود التحقق غير صحيح أو انتهت صلاحيته.",
-            "error"
-        );
 
+        if (
+            error.code ===
+            "auth/invalid-credential"
+        ) {
 
-        verifyBtn.disabled = false;
+            showMessage(
+                "رقم الهاتف أو الرقم السري غير صحيح.",
+                "error"
+            );
 
-        verifyBtn.textContent =
-            "تأكيد الرقم";
+        } else {
+
+            showMessage(
+                "حدث خطأ أثناء تسجيل الدخول.",
+                "error"
+            );
+        }
     }
-});
 
 
-// ============================================
-// تغيير رقم الهاتف
-// ============================================
+    loginBtn.disabled = false;
 
-backBtn.addEventListener("click", () => {
-
-    otpSection.classList.add("hidden");
-
-    phoneInput.disabled = false;
-
-    sendCodeBtn.classList.remove("hidden");
-
-    sendCodeBtn.disabled = false;
-
-    sendCodeBtn.textContent =
-        "إرسال كود التحقق";
-
-
-    otpInput.value = "";
-
-    showMessage("");
-
-
-    // إعادة تهيئة reCAPTCHA
-
-    if (recaptchaVerifier) {
-
-        try {
-            recaptchaVerifier.clear();
-        } catch (e) {}
-
-        recaptchaVerifier = null;
-    }
+    loginBtn.textContent =
+        "تسجيل الدخول";
 });
