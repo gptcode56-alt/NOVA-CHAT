@@ -1,10 +1,11 @@
 // ==========================================
-// Nova Chat - app.js
+// Nova Chat
+// Firebase Authentication
 // ==========================================
 
 
 // ==========================================
-// تحميل Firebase
+// Firebase Imports
 // ==========================================
 
 import { initializeApp } from
@@ -19,30 +20,17 @@ import {
 
 
 // ==========================================
-// إعدادات Firebase
+// Firebase Configuration
 // ==========================================
 
 const firebaseConfig = {
-
-    apiKey: "AIzaSyALknAXGEt4k_5c26WUYT2-tE00lwG6CMc",
-
-    authDomain:
-        "my-we-7be7c.firebaseapp.com",
-
-    projectId:
-        "my-we-7be7c",
-
-    storageBucket:
-        "my-we-7be7c.firebasestorage.app",
-
-    messagingSenderId:
-        "286975925668",
-
-    appId:
-        "1:286975925668:web:cb30205ff611ead38f7531",
-
-    measurementId:
-        "G-8BDHDE8TF7"
+    apiKey: "AIzaSyABwXUC5h576QgbxuGeXI3HxnycK9PoyRU",
+    authDomain: "nova-a3c5e.firebaseapp.com",
+    projectId: "nova-a3c5e",
+    storageBucket: "nova-a3c5e.firebasestorage.app",
+    messagingSenderId: "732785402897",
+    appId: "1:732785402897:web:ccf12d216699e409b17db0",
+    measurementId: "G-YJY3HSB394"
 };
 
 
@@ -50,15 +38,13 @@ const firebaseConfig = {
 // تشغيل Firebase
 // ==========================================
 
-const firebaseApp =
-    initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
-const auth =
-    getAuth(firebaseApp);
+const auth = getAuth(app);
 
 
 // ==========================================
-// عناصر HTML
+// عناصر الصفحة
 // ==========================================
 
 const loginTab =
@@ -84,20 +70,14 @@ const message =
 
 
 // ==========================================
-// التأكد أن العناصر موجودة
+// التأكد من تحميل العناصر
 // ==========================================
 
-if (!loginButton) {
-    console.error("loginButton غير موجود في index.html");
-}
-
-if (!registerButton) {
-    console.error("registerButton غير موجود في index.html");
-}
+console.log("Nova Chat بدأ التشغيل ✅");
 
 
 // ==========================================
-// إظهار رسالة
+// إظهار الرسائل
 // ==========================================
 
 function showMessage(text, type = "") {
@@ -149,9 +129,9 @@ function isValidPin(pin) {
 // تحويل رقم الهاتف إلى Email داخلي
 // ==========================================
 
-function makeEmail(phone) {
+function phoneToEmail(phone) {
 
-    return phone + "@novachat.local";
+    return phone + "@nova-chat.local";
 }
 
 
@@ -159,7 +139,7 @@ function makeEmail(phone) {
 // تبديل تسجيل الدخول
 // ==========================================
 
-loginTab.addEventListener("click", function () {
+loginTab.addEventListener("click", () => {
 
     loginTab.classList.add("active");
 
@@ -175,10 +155,10 @@ loginTab.addEventListener("click", function () {
 
 
 // ==========================================
-// تبديل إنشاء حساب
+// تبديل إنشاء الحساب
 // ==========================================
 
-registerTab.addEventListener("click", function () {
+registerTab.addEventListener("click", () => {
 
     registerTab.classList.add("active");
 
@@ -197,381 +177,359 @@ registerTab.addEventListener("click", function () {
 // إنشاء حساب جديد
 // ==========================================
 
-registerButton.addEventListener(
-    "click",
-    async function () {
+registerButton.addEventListener("click", async () => {
 
-        let phone =
-            document.getElementById(
-                "registerPhone"
-            ).value;
+    let phone =
+        document.getElementById(
+            "registerPhone"
+        ).value;
 
-        const pin =
-            document.getElementById(
-                "registerPin"
-            ).value;
+    const pin =
+        document.getElementById(
+            "registerPin"
+        ).value;
 
-        const pinConfirm =
-            document.getElementById(
-                "registerPinConfirm"
-            ).value;
+    const pinConfirm =
+        document.getElementById(
+            "registerPinConfirm"
+        ).value;
 
 
-        // تنظيف الرقم
+    // تنظيف الرقم
 
-        phone = cleanPhone(phone);
+    phone = cleanPhone(phone);
 
 
-        // فحص الهاتف
+    // التحقق من رقم الهاتف
 
-        if (!isValidPhone(phone)) {
+    if (!isValidPhone(phone)) {
 
-            showMessage(
-                "❌ اكتب رقم هاتف مصري صحيح مثل 01012345678",
-                "error"
-            );
+        showMessage(
+            "❌ اكتب رقم هاتف مصري صحيح مثل 01012345678",
+            "error"
+        );
 
-            return;
-        }
+        return;
+    }
 
 
-        // فحص الرقم السري
+    // التحقق من الرقم السري
 
-        if (!isValidPin(pin)) {
+    if (!isValidPin(pin)) {
 
-            showMessage(
-                "❌ الرقم السري لازم يكون 6 أرقام بالضبط.",
-                "error"
-            );
+        showMessage(
+            "❌ الرقم السري يجب أن يكون 6 أرقام.",
+            "error"
+        );
 
-            return;
-        }
+        return;
+    }
 
 
-        // تأكيد الرقم السري
+    // تأكيد الرقم السري
 
-        if (pin !== pinConfirm) {
+    if (pin !== pinConfirm) {
 
-            showMessage(
-                "❌ الرقم السري غير متطابق.",
-                "error"
-            );
+        showMessage(
+            "❌ الرقم السري غير متطابق.",
+            "error"
+        );
 
-            return;
-        }
+        return;
+    }
 
 
-        try {
+    try {
 
-            registerButton.disabled = true;
-
-            registerButton.textContent =
-                "جاري إنشاء الحساب...";
-
-
-            // إنشاء Email داخلي
-
-            const email =
-                makeEmail(phone);
-
-
-            console.log(
-                "Creating account:",
-                email
-            );
-
-
-            // إنشاء الحساب في Firebase
-
-            const userCredential =
-                await createUserWithEmailAndPassword(
-                    auth,
-                    email,
-                    pin
-                );
-
-
-            const user =
-                userCredential.user;
-
-
-            console.log(
-                "Firebase UID:",
-                user.uid
-            );
-
-
-            // حفظ الرقم فقط في الجهاز
-
-            localStorage.setItem(
-                "novaPhone",
-                phone
-            );
-
-
-            showMessage(
-                "✅ تم إنشاء الحساب بنجاح!",
-                "success"
-            );
-
-
-            // تفريغ الحقول
-
-            document.getElementById(
-                "registerPhone"
-            ).value = "";
-
-            document.getElementById(
-                "registerPin"
-            ).value = "";
-
-            document.getElementById(
-                "registerPinConfirm"
-            ).value = "";
-
-
-        }
-
-        catch (error) {
-
-            console.error(
-                "Firebase Register Error:",
-                error
-            );
-
-
-            let errorText =
-                "❌ حصل خطأ أثناء إنشاء الحساب.";
-
-
-            if (
-                error.code ===
-                "auth/email-already-in-use"
-            ) {
-
-                errorText =
-                    "❌ رقم الهاتف ده مسجل بالفعل.";
-
-            }
-
-            else if (
-                error.code ===
-                "auth/weak-password"
-            ) {
-
-                errorText =
-                    "❌ الرقم السري غير مقبول.";
-
-            }
-
-            else if (
-                error.code ===
-                "auth/operation-not-allowed"
-            ) {
-
-                errorText =
-                    "❌ لازم تفعّل Email/Password من Firebase Authentication.";
-
-            }
-
-            else if (
-                error.code ===
-                "auth/invalid-api-key"
-            ) {
-
-                errorText =
-                    "❌ Firebase API Key غير صحيح.";
-
-            }
-
-
-            showMessage(
-                errorText,
-                "error"
-            );
-
-        }
-
-
-        registerButton.disabled = false;
+        registerButton.disabled = true;
 
         registerButton.textContent =
-            "إنشاء الحساب";
+            "جاري إنشاء الحساب...";
+
+
+        // تحويل رقم الهاتف إلى معرف داخلي
+
+        const email =
+            phoneToEmail(phone);
+
+
+        console.log(
+            "إنشاء حساب:",
+            email
+        );
+
+
+        // إنشاء الحساب في Firebase
+
+        const userCredential =
+            await createUserWithEmailAndPassword(
+                auth,
+                email,
+                pin
+            );
+
+
+        const user =
+            userCredential.user;
+
+
+        console.log(
+            "تم إنشاء الحساب ✅",
+            user.uid
+        );
+
+
+        // حفظ رقم الهاتف فقط
+
+        localStorage.setItem(
+            "novaPhone",
+            phone
+        );
+
+
+        showMessage(
+            "✅ تم إنشاء الحساب بنجاح!",
+            "success"
+        );
+
+
+        // تفريغ الحقول
+
+        document.getElementById(
+            "registerPhone"
+        ).value = "";
+
+        document.getElementById(
+            "registerPin"
+        ).value = "";
+
+        document.getElementById(
+            "registerPinConfirm"
+        ).value = "";
+
+
+    } catch (error) {
+
+        console.error(
+            "Register Error:",
+            error
+        );
+
+
+        // رسالة الخطأ
+
+        if (
+            error.code ===
+            "auth/email-already-in-use"
+        ) {
+
+            showMessage(
+                "❌ رقم الهاتف ده مسجل بالفعل.",
+                "error"
+            );
+
+        }
+
+        else if (
+            error.code ===
+            "auth/operation-not-allowed"
+        ) {
+
+            showMessage(
+                "❌ لازم تفعيل Email/Password من Firebase Authentication.",
+                "error"
+            );
+
+        }
+
+        else if (
+            error.code ===
+            "auth/weak-password"
+        ) {
+
+            showMessage(
+                "❌ Firebase رفض الرقم السري لأنه ضعيف.",
+                "error"
+            );
+
+        }
+
+        else {
+
+            showMessage(
+                "❌ حدث خطأ: " + error.message,
+                "error"
+            );
+
+        }
 
     }
-);
+
+
+    registerButton.disabled = false;
+
+    registerButton.textContent =
+        "إنشاء الحساب";
+
+});
 
 
 // ==========================================
 // تسجيل الدخول
 // ==========================================
 
-loginButton.addEventListener(
-    "click",
-    async function () {
+loginButton.addEventListener("click", async () => {
 
-        let phone =
-            document.getElementById(
-                "loginPhone"
-            ).value;
+    let phone =
+        document.getElementById(
+            "loginPhone"
+        ).value;
 
-        const pin =
-            document.getElementById(
-                "loginPin"
-            ).value;
+    const pin =
+        document.getElementById(
+            "loginPin"
+        ).value;
 
 
-        // تنظيف الهاتف
+    // تنظيف الهاتف
 
-        phone = cleanPhone(phone);
-
-
-        // فحص الهاتف
-
-        if (!isValidPhone(phone)) {
-
-            showMessage(
-                "❌ اكتب رقم هاتف مصري صحيح مثل 01012345678",
-                "error"
-            );
-
-            return;
-        }
+    phone = cleanPhone(phone);
 
 
-        // فحص PIN
+    // التحقق من الهاتف
 
-        if (!isValidPin(pin)) {
+    if (!isValidPhone(phone)) {
 
-            showMessage(
-                "❌ الرقم السري لازم يكون 6 أرقام بالضبط.",
-                "error"
-            );
+        showMessage(
+            "❌ اكتب رقم هاتف مصري صحيح مثل 01012345678",
+            "error"
+        );
 
-            return;
-        }
-
-
-        try {
-
-            loginButton.disabled = true;
-
-            loginButton.textContent =
-                "جاري تسجيل الدخول...";
+        return;
+    }
 
 
-            // إنشاء الـEmail الداخلي
+    // التحقق من PIN
 
-            const email =
-                makeEmail(phone);
+    if (!isValidPin(pin)) {
 
+        showMessage(
+            "❌ الرقم السري يجب أن يكون 6 أرقام.",
+            "error"
+        );
 
-            console.log(
-                "Login attempt:",
-                email
-            );
-
-
-            // تسجيل الدخول في Firebase
-
-            const userCredential =
-                await signInWithEmailAndPassword(
-                    auth,
-                    email,
-                    pin
-                );
+        return;
+    }
 
 
-            const user =
-                userCredential.user;
+    try {
 
-
-            console.log(
-                "Logged in UID:",
-                user.uid
-            );
-
-
-            // حفظ الرقم
-
-            localStorage.setItem(
-                "novaPhone",
-                phone
-            );
-
-
-            showMessage(
-                "✅ تم تسجيل الدخول بنجاح!",
-                "success"
-            );
-
-
-            // بعد ما نعمل home.html
-            // هنضع هنا:
-            //
-            // window.location.href = "home.html";
-
-
-        }
-
-        catch (error) {
-
-            console.error(
-                "Firebase Login Error:",
-                error
-            );
-
-
-            let errorText =
-                "❌ رقم الهاتف أو الرقم السري غير صحيح.";
-
-
-            if (
-                error.code ===
-                "auth/invalid-credential"
-            ) {
-
-                errorText =
-                    "❌ رقم الهاتف أو الرقم السري غير صحيح.";
-
-            }
-
-            else if (
-                error.code ===
-                "auth/invalid-email"
-            ) {
-
-                errorText =
-                    "❌ بيانات الحساب غير صحيحة.";
-
-            }
-
-            else if (
-                error.code ===
-                "auth/operation-not-allowed"
-            ) {
-
-                errorText =
-                    "❌ فعّل Email/Password من Firebase Authentication.";
-
-            }
-
-
-            showMessage(
-                errorText,
-                "error"
-            );
-
-        }
-
-
-        loginButton.disabled = false;
+        loginButton.disabled = true;
 
         loginButton.textContent =
-            "تسجيل الدخول";
+            "جاري تسجيل الدخول...";
+
+
+        const email =
+            phoneToEmail(phone);
+
+
+        console.log(
+            "محاولة تسجيل الدخول:",
+            email
+        );
+
+
+        // تسجيل الدخول
+
+        const userCredential =
+            await signInWithEmailAndPassword(
+                auth,
+                email,
+                pin
+            );
+
+
+        const user =
+            userCredential.user;
+
+
+        console.log(
+            "تم تسجيل الدخول ✅",
+            user.uid
+        );
+
+
+        // حفظ الرقم
+
+        localStorage.setItem(
+            "novaPhone",
+            phone
+        );
+
+
+        showMessage(
+            "✅ تم تسجيل الدخول بنجاح!",
+            "success"
+        );
+
+
+        // بعد إنشاء الصفحة الرئيسية
+        // هنضع هنا:
+        //
+        // window.location.href = "home.html";
+
+
+    } catch (error) {
+
+        console.error(
+            "Login Error:",
+            error
+        );
+
+
+        if (
+            error.code ===
+            "auth/invalid-credential"
+        ) {
+
+            showMessage(
+                "❌ رقم الهاتف أو الرقم السري غير صحيح.",
+                "error"
+            );
+
+        }
+
+        else if (
+            error.code ===
+            "auth/operation-not-allowed"
+        ) {
+
+            showMessage(
+                "❌ لازم تفعيل Email/Password من Firebase Authentication.",
+                "error"
+            );
+
+        }
+
+        else {
+
+            showMessage(
+                "❌ حدث خطأ: " + error.message,
+                "error"
+            );
+
+        }
 
     }
-);
+
+
+    loginButton.disabled = false;
+
+    loginButton.textContent =
+        "تسجيل الدخول";
+
+});
 
 
 // ==========================================
@@ -584,33 +542,31 @@ const numericInputs =
     );
 
 
-numericInputs.forEach(
-    function (input) {
+numericInputs.forEach(input => {
 
-        input.addEventListener(
-            "input",
-            function () {
+    input.addEventListener(
+        "input",
+        () => {
 
-                this.value =
-                    this.value.replace(
-                        /[^0-9]/g,
-                        ""
-                    );
+            input.value =
+                input.value.replace(
+                    /[^0-9]/g,
+                    ""
+                );
 
-            }
-        );
+        }
+    );
 
-    }
-);
+});
 
 
 // ==========================================
-// زر Enter
+// الضغط على Enter
 // ==========================================
 
 document.addEventListener(
     "keydown",
-    function (event) {
+    event => {
 
         if (event.key !== "Enter") {
             return;
@@ -638,9 +594,9 @@ document.addEventListener(
 
 
 // ==========================================
-// رسالة بدء التشغيل
+// اختبار التشغيل
 // ==========================================
 
 console.log(
-    "Nova Chat Firebase App Started Successfully 🚀"
+    "🔥 Nova Chat Firebase Connected"
 );
